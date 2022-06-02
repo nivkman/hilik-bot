@@ -6,7 +6,7 @@ const login = require('../functions/login');
 
 router.post('/', async(req, res) => {
     const { username, password, officeDays, workingHours } = req.body;
-    const { browser, page } = await openBrowser();
+    const [browser, page] = await openBrowser();
     await login(page, username, password);
     await fill(page, officeDays, workingHours);
     await closeBrowser(browser, page);
