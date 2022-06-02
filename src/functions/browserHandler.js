@@ -8,7 +8,7 @@ const openBrowser = async() => {
             slowMo: 10
         });
         const page = await browser.newPage();
-        await page.setViewport({ width: 1366, height: 5000 });
+        // await page.setViewport({ width: 1366, height: 5000 });
 
         return [browser, page];
     } catch (err) {
