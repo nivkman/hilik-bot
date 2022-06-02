@@ -5,16 +5,25 @@ const SHOULD_FILLS = [
     'ERRORS'
 ]
 
-const fill = async(page, officeDays = [0, 0, 0, 0, 0], workingHours = ["0900", "1800"]) => {
+const fill = async(page, officeDays = [0, 0, 0, 0, 0], workingHours = ["0900", "1800"], month = "0") => {
+    let daysAmount = 0;
     for (const shouldFill of SHOULD_FILLS) {
         await goToCalendarPage(page);
 
+        if (month === "1" && shouldFill === 'ERRORS') {
+            await goToLastMonth(page);
+            await sleep(page, 4, 3);
+        }
+
         if (shouldFill === 'ERRORS') {
             await showErrorDays(page);
+            await sleep(page, 4, 3);
         }
         await zoomOut(page);
-        await fillDays(page, officeDays, workingHours);
+        daysAmount += await fillDays(page, officeDays, workingHours);
     }
+
+    return daysAmount;
 }
 
 const fillDays = async(page, officeDays, workingHours) => {
@@ -24,12 +33,20 @@ const fillDays = async(page, officeDays, workingHours) => {
     if (enteryNameValues && enteryNameValues.length > 0) {
         await fillTimeInTable(page, enteryNameValues, exitNameValues, noteNameValues, locationNameValues, officeDays, workingHours);
         await saveChanges(page, text);
+        await sleep(page, 2, 1);
     }
+
+    return enteryNameValues.length;
 }
 
 const goToCalendarPage = async(page) => {
     await page.goto('https://kenshoo.net.hilan.co.il/Hilannetv2/Attendance/calendarpage.aspx?isPersonalFileMode=true&ReportPageMode=2');
-    await sleep(page, 3, 2);
+}
+
+const goToLastMonth = async(page) => {
+    const [lastMonthBtn] = await page.$x('//td[@id="ctl00_mp_calendar_prev"]');
+    await lastMonthBtn.click();
+
 }
 
 const showErrorDays = async(page) => {
@@ -53,8 +70,6 @@ const fillTimeInTable = async(page, enteryNameValues, exitNameValues, noteNameVa
 
         const [inputNote] = await page.$$(`#${noteNameValues[i]} > input`);
         await inputNote.type('-');
-
-        // await page.select(`select[@id="${locationNameValues[i]}"]`, '0');
     }
 }
 

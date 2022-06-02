@@ -5,13 +5,11 @@ const login = async(page, username, password) => {
     await sleep(page, 4, 2);
     const [usernameInput] = await page.$$('.h-input-username');
     await usernameInput.type(username);
-    await sleep(page, 4, 2);
     const [passwordInput] = await page.$$('.h-input-password');
     await passwordInput.type(password);
-    await sleep(page, 4, 2);
     const [submit] = await page.$x('//button[@type="submit"]');
     submit.click();
-    await sleep(page, 7, 5);
+    await sleep(page, 3, 2);
 }
 
 module.exports = login;

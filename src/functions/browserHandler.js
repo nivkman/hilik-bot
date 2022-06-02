@@ -3,7 +3,7 @@ const puppeteer = require('puppeteer');
 const openBrowser = async() => {
     try {
         const browser = await puppeteer.launch({
-            headless: false,
+            headless: true,
             args: ["--no-sandbox"],
             slowMo: 10
         });
