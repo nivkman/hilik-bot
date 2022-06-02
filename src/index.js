@@ -15,6 +15,8 @@ app.use(bodyParser.json())
 
 app.use('/api/v1', require('./routers/v1.js'));
 
-app.listen(process.env.PORT, () => {
-    console.log(`server running at PORT: ${process.env.PORT}`)
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`server running at PORT: ${PORT}`)
 })
