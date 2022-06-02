@@ -3,14 +3,14 @@ const puppeteer = require('puppeteer');
 const openBrowser = async() => {
     try {
         const browser = await puppeteer.launch({
-            headless: true,
+            headless: false,
             args: ["--no-sandbox"],
             slowMo: 10
         });
         const page = await browser.newPage();
         // await page.setViewport({ width: 1366, height: 5000 });
 
-        return { browser, page };
+        return [browser, page];
     } catch (err) {
         return err;
     }
