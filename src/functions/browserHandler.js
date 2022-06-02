@@ -10,7 +10,7 @@ const openBrowser = async() => {
         const page = await browser.newPage();
         // await page.setViewport({ width: 1366, height: 5000 });
 
-        return [browser, page];
+        return { browser, page };
     } catch (err) {
         return err;
     }
